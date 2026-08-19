@@ -1,0 +1,19 @@
+[build]
+  publish = "public"
+  # Netlify only publishes the "public" folder, but the browser-side
+  # app.js needs shared/rosterLogic.mjs too (the Netlify function
+  # imports it fine from its real location since function bundling
+  # isn't restricted to "public"). This copies the single source of
+  # truth into public/shared/ on every build, so the two never drift
+  # out of sync — edit shared/rosterLogic.mjs only, never the copy.
+  command = "mkdir -p public/shared && cp shared/rosterLogic.mjs public/shared/rosterLogic.mjs"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Fires Monday evening UTC, which lands early-to-mid Tuesday in Sydney
+# (exact local time shifts a little with daylight saving) — a day or
+# two of notice before Wednesday afternoon/evening bin-out.
+[functions."send-reminder"]
+  schedule = "0 20 * * 1"

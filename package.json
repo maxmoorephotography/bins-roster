@@ -1,0 +1,10 @@
+{
+  "name": "47-yorston-bin-roster",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kerbside bin roster for 47 Yorston Street — static site + weekly email reminder.",
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  }
+}

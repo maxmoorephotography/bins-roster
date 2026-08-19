@@ -1,0 +1,16 @@
+{
+  "buildingName": "47 Yorston Street",
+  "pickupDay": "Thursday",
+  "pickupTime": "7:00 AM",
+  "takeOutBy": "Wednesday afternoon/evening",
+  "returnBy": "Thursday, any time after the 7am collection",
+  "rosterStartDate": "2026-08-20",
+  "redWeekStartDate": "2026-08-20",
+  "units": [
+    { "id": "th1", "label": "Townhouse 1" },
+    { "id": "th2", "label": "Townhouse 2" },
+    { "id": "th3", "label": "Townhouse 3" },
+    { "id": "th4", "label": "Townhouse 4" },
+    { "id": "th5", "label": "Townhouse 5" }
+  ]
+}

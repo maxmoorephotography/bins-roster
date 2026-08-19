@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kerb Roster — 47 Yorston Street</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <nav class="site-nav">
+      <a href="bylaws.html">Strata By-laws</a>
+    </nav>
+    <p class="eyebrow">47 Yorston Street · Strata Bin Roster</p>
+    <h1 class="wordmark">KERB<span class="wordmark-thin">SIDE</span></h1>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== THIS WEEK ===== -->
+  <section class="this-week" aria-labelledby="tw-heading">
+    <div class="tw-info">
+      <p class="tag" id="tw-range">Loading week…</p>
+      <h2 id="tw-heading">On duty:</h2>
+      <p class="unit-name" id="tw-unit">—</p>
+
+      <dl class="tw-times">
+        <div>
+          <dt>Bins out by</dt>
+          <dd id="tw-out">—</dd>
+        </div>
+        <div>
+          <dt>Bins back by</dt>
+          <dd id="tw-back">—</dd>
+        </div>
+      </dl>
+
+      <div class="chips" id="tw-chips" aria-label="Bins collected this week"></div>
+
+      <p class="countdown" id="tw-countdown">—</p>
+    </div>
+
+    <!-- Signature element: bins lined up at the kerb -->
+    <div class="kerb" role="img" aria-label="Bins at the kerb this week">
+      <svg viewBox="0 0 340 200" class="kerb-svg" id="kerb-svg">
+        <line x1="0" y1="172" x2="340" y2="172" class="kerb-line"/>
+        <!-- general bin 1 -->
+        <g class="bin" id="bin-g1" transform="translate(30,60)">
+          <rect x="0" y="26" width="46" height="86" rx="6" class="bin-body"/>
+          <rect x="-3" y="16" width="52" height="14" rx="4" class="bin-lid"/>
+          <rect x="18" y="0" width="10" height="18" rx="2" class="bin-handle"/>
+        </g>
+        <!-- general bin 2 -->
+        <g class="bin" id="bin-g2" transform="translate(90,60)">
+          <rect x="0" y="26" width="46" height="86" rx="6" class="bin-body"/>
+          <rect x="-3" y="16" width="52" height="14" rx="4" class="bin-lid"/>
+          <rect x="18" y="0" width="10" height="18" rx="2" class="bin-handle"/>
+        </g>
+        <!-- general bin 3 -->
+        <g class="bin" id="bin-g3" transform="translate(150,60)">
+          <rect x="0" y="26" width="46" height="86" rx="6" class="bin-body"/>
+          <rect x="-3" y="16" width="52" height="14" rx="4" class="bin-lid"/>
+          <rect x="18" y="0" width="10" height="18" rx="2" class="bin-handle"/>
+        </g>
+        <!-- green bin (always out) -->
+        <g class="bin bin-green" transform="translate(226,68)">
+          <rect x="0" y="24" width="40" height="78" rx="6" class="bin-body"/>
+          <rect x="-3" y="15" width="46" height="12" rx="4" class="bin-lid"/>
+          <rect x="15" y="0" width="10" height="16" rx="2" class="bin-handle"/>
+        </g>
+        <!-- duty tag: names the two townhouses on duty this week -->
+        <g id="duty-tag" class="duty-tag" transform="translate(113,20)">
+          <rect x="-42" y="-16" width="84" height="22" rx="3" class="tag-body"/>
+          <text x="0" y="0" text-anchor="middle" class="tag-text" id="duty-tag-text">TH1 · TH2</text>
+        </g>
+      </svg>
+      <p class="kerb-caption">Common area → kerb, weekly</p>
+    </div>
+  </section>
+
+  <!-- ===== UPCOMING ===== -->
+  <section class="upcoming" aria-labelledby="up-heading">
+    <h2 id="up-heading" class="section-title">Next up</h2>
+    <div class="table" id="upcoming-table">
+      <div class="row row-head">
+        <span>Week of</span>
+        <span>On duty</span>
+        <span>Bins collected</span>
+      </div>
+      <!-- rows injected by app.js -->
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how" aria-labelledby="how-heading">
+    <h2 id="how-heading" class="section-title">How the roster works</h2>
+    <ul class="how-list">
+      <li><strong>Two townhouses on duty each week</strong>, rotating through all 5 so every household takes an equal share over time.</li>
+      <li>Rostering two people is deliberate: if one is away or forgets, the other still gets the bins out — a minimum of two bins reliably makes it to the kerb.</li>
+      <li><strong>Green food &amp; garden bin</strong> goes out every week — it's collected weekly.</li>
+      <li><strong>Red or yellow general bins</strong> alternate week to week with the council's fortnightly collection.</li>
+      <li>Bins go to the kerb <strong>Wednesday afternoon/evening</strong> and come back <strong>any time Thursday</strong>, after the 7am collection.</li>
+      <li>On weeks with a public holiday that shifts council collection, your calendar reminder will flag it — always worth a quick check with council if unsure.</li>
+      <li>Subscribe your unit's calendar below and reminders arrive automatically — no email address needed, and nothing breaks if your email changes.</li>
+    </ul>
+  </section>
+
+  <!-- ===== SUBSCRIBE ===== -->
+  <section class="subscribe" aria-labelledby="subscribe-heading">
+    <h2 id="subscribe-heading" class="section-title">Subscribe to your bin duty calendar</h2>
+    <p class="subscribe-intro">Add your townhouse's feed to your phone or computer calendar once, and it'll show your on-duty weeks automatically — including a reminder the evening bins need to go out. Tap your unit:</p>
+    <div class="subscribe-grid" id="subscribe-grid">
+      <!-- links injected by app.js -->
+    </div>
+    <p class="subscribe-note">On iPhone: tap a link, then "Subscribe" when prompted. On Android/Google Calendar: paste the link under Settings → Add calendar → From URL.</p>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p>47 Yorston Street · Care for your strata environment</p>
+  </div>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
