@@ -18,10 +18,10 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { getUpcomingWeeks } from '../../shared/rosterLogic.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 
 async function loadConfig() {
-  const raw = await readFile(path.join(__dirname, '../../public/roster-config.json'), 'utf8');
+  const raw = await readFile(path.join(moduleDir, '../../public/roster-config.json'), 'utf8');
   return JSON.parse(raw);
 }
 
