@@ -44,10 +44,25 @@ const COLLECTION_SHIFT_DATES = [
   '2027-01-28', // Australia Day observed
 ];
 
-function icsDate(date, hour, minute) {
+// Absolute UTC timestamp — used only for DTSTAMP (a record of when the
+// event was generated, not a local wall-clock time).
+function icsDateUTC(date) {
+  return new Date(date).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+}
+
+// Floating local timestamp (no trailing Z) for a given Sydney wall-clock
+// hour/minute on the UTC calendar date of `date`. Paired with a
+// TZID=Australia/Sydney parameter on the property line, this is what
+// makes calendar apps show bins-out at 6pm / pickup at 9am Sydney time
+// instead of shifting 10-11 hours off because of a UTC 'Z' timestamp.
+function icsDateLocal(date, hour, minute) {
   const d = new Date(date);
-  d.setUTCHours(hour, minute, 0, 0);
-  return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  const yyyy = d.getUTCFullYear();
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(d.getUTCDate()).padStart(2, '0');
+  const hh = String(hour).padStart(2, '0');
+  const min = String(minute).padStart(2, '0');
+  return `${yyyy}${mm}${dd}T${hh}${min}00`;
 }
 
 function escapeText(str) {
@@ -93,9 +108,9 @@ function buildEvent(week, config, unitFilter) {
   return [
     'BEGIN:VEVENT',
     `UID:${uid}`,
-    `DTSTAMP:${icsDate(new Date(), 0, 0)}`,
-    `DTSTART:${icsDate(outDate, 18, 0)}`,
-    `DTEND:${icsDate(week.pickupDate, 9, 0)}`,
+    `DTSTAMP:${icsDateUTC(new Date())}`,
+    `DTSTART;TZID=Australia/Sydney:${icsDateLocal(outDate, 18, 0)}`,
+    `DTEND;TZID=Australia/Sydney:${icsDateLocal(week.pickupDate, 9, 0)}`,
     foldLine(`SUMMARY:${escapeText(summary)}`),
     foldLine(`DESCRIPTION:${escapeText(description)}`),
     'BEGIN:VALARM',
