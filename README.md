@@ -33,8 +33,32 @@ free weekly email reminder to whoever's on duty.
 │   └── functions/
 │       └── send-reminder.mjs        # scheduled weekly reminder email
 └── data/
-    └── residents.example.json       # example only — real emails live in Netlify env vars
+    ├── residents.example.json       # example only — real emails live in Netlify env vars
+    ├── unit-tokens.json              # real per-unit secret tokens — see "Calendar subscription privacy" below
+    └── unit-tokens.example.json      # template
 ```
+
+## Calendar subscription privacy
+
+Each townhouse's calendar feed is protected by a secret token in
+`data/unit-tokens.json`. This file lives outside `public/`, so it's
+never sent to anyone's browser — only the Netlify function reads it.
+
+A resident's personal subscribe link is:
+
+```
+https://<your-site>.netlify.app/?unit=th1&token=<their token from data/unit-tokens.json>
+```
+
+Send each resident **only their own link** (text/email), not a link
+to the homepage. When they open it, the site shows just their unit's
+subscribe button — the homepage itself doesn't list anyone's link.
+If someone edits `?unit=th1` to `?unit=th2` without also knowing
+th2's token, the calendar feed rejects the request (403).
+
+To rotate a token (e.g. a unit changes hands), edit
+`data/unit-tokens.json`, commit, and resend that resident's new link
+— their old link stops working immediately.
 
 ## How the roster is calculated
 

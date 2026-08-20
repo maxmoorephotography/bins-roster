@@ -78,10 +78,20 @@ async function init(){
   document.querySelector('.eyebrow').textContent =
     `${config.buildingName} · Strata Bin Roster`;
 
-  // per-unit calendar subscription links
+  // Per-unit calendar subscription link. Each resident gets their own
+  // private URL (e.g. .../?unit=th3&token=abc123) sent to them directly —
+  // this page never lists every unit's link, and the feed itself checks
+  // the token server-side, so one resident can't subscribe to another
+  // unit's feed even by guessing/editing the URL.
   const subscribeGrid = document.getElementById('subscribe-grid');
-  config.units.forEach(unit => {
-    const feedPath = `/.netlify/functions/calendar-feed?unit=${unit.id}`;
+  const subscribeIntro = document.querySelector('.subscribe-intro');
+  const params = new URLSearchParams(window.location.search);
+  const myUnitId = params.get('unit');
+  const myToken = params.get('token');
+  const myUnit = config.units.find(u => u.id === myUnitId);
+
+  if (myUnit && myToken) {
+    const feedPath = `/.netlify/functions/calendar-feed?unit=${myUnit.id}&token=${encodeURIComponent(myToken)}`;
     const httpsUrl = `${window.location.origin}${feedPath}`;
 
     const row = document.createElement('div');
@@ -90,7 +100,7 @@ async function init(){
     const link = document.createElement('a');
     link.className = 'subscribe-chip';
     link.href = `webcal://${window.location.host}${feedPath}`;
-    link.textContent = unit.label;
+    link.textContent = myUnit.label;
     row.appendChild(link);
 
     // Fallback for whenever webcal:// doesn't trigger anything
@@ -114,7 +124,11 @@ async function init(){
     row.appendChild(copyBtn);
 
     subscribeGrid.appendChild(row);
-  });
+  } else {
+    if (subscribeIntro) {
+      subscribeIntro.textContent = "This page doesn't show subscribe links directly — ask whoever set up the roster for your unit's personal link.";
+    }
+  }
 
   // keep the countdown fresh
   setInterval(() => {

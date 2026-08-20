@@ -25,6 +25,16 @@ async function loadConfig() {
   return JSON.parse(raw);
 }
 
+// Per-unit secret tokens live outside public/, so they never ship to the
+// browser. A request for a specific unit's feed must include the matching
+// token, so residents can't swap ?unit=th1 for ?unit=th2 and pull a
+// neighbour's calendar. Regenerate this file (see README) if a unit's link
+// is ever shared somewhere it shouldn't have been.
+async function loadUnitTokens() {
+  const raw = await readFile(path.join(moduleDir, '../../data/unit-tokens.json'), 'utf8');
+  return JSON.parse(raw);
+}
+
 // NSW public holidays that commonly bump a Thursday council collection
 // to Friday. Kept as a plain date list here (rather than a library)
 // so it's easy for a non-developer to extend — add "YYYY-MM-DD" for
@@ -101,9 +111,20 @@ export default async (req) => {
   const config = await loadConfig();
   const url = new URL(req.url);
   const unitFilter = url.searchParams.get('unit');
+  const token = url.searchParams.get('token');
 
   if (unitFilter && !config.units.some(u => u.id === unitFilter)) {
     return new Response('Unknown unit id. Valid ids: ' + config.units.map(u => u.id).join(', '), { status: 400 });
+  }
+
+  // A unit-specific feed requires its matching token. Without this, anyone
+  // could change ?unit=th1 to ?unit=th2 in the URL bar and subscribe to a
+  // different unit's calendar.
+  if (unitFilter) {
+    const tokens = await loadUnitTokens();
+    if (token !== tokens[unitFilter]) {
+      return new Response('Missing or incorrect token for this unit.', { status: 403 });
+    }
   }
 
   const weeks = getUpcomingWeeks(config, 26); // ~6 months ahead
