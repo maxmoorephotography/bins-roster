@@ -40,8 +40,15 @@ export function getWeekInfo(config, referenceDate = new Date()) {
   // Two units on duty each week, stepping the pair forward by one
   // unit per week so the workload rotates evenly (2 of 5 units/week
   // -> everyone is on duty on average 2 weeks in 5).
+  //
+  // The second unit is offset by roughly half the roster (not +1),
+  // so a given unit's two duty weeks per cycle land apart from each
+  // other instead of back-to-back. With +1, each unit was next to
+  // itself in the pairing sequence and ended up doing two
+  // consecutive weeks followed by a long stretch off; the ~n/2
+  // offset spreads that into two separated weeks per cycle instead.
   const firstIndex = ((weeksSinceStart % n) + n) % n;
-  const secondIndex = (firstIndex + 1) % n;
+  const secondIndex = (firstIndex + Math.floor(n / 2)) % n;
 
   const redThu = cycleThursdayUTC(redWeekStartDate);
   const weeksSinceRed = weeksBetween(pickupThu, redThu);
